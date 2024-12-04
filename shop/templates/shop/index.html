@@ -1,0 +1,99 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %} Online Shopping {% endblock %}
+{% block css %}
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+  }
+  .navbar {
+    background-color: #8c5d4f;
+    padding: 10px;
+  }
+  .navbar a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  .footer {
+    background-color: #8c5d4f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #8c5d4f;
+    color: white;
+    display: none;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-2 mb-3">
+  <div class="row">
+    {% for product in products %}
+    <div class="col-lg-4 my-4">
+      <div class="card shadow align-items-center" style="width: 20rem; height: 27rem;">
+        <img src="/media/{{product.image}}" class="card-img-top" style="width: 170px; height: 260px;" alt="...">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{product.name}}</h5>
+          <hr>
+          {% if request.user.is_authenticated %}
+          <button data-product="{{product.id}}" data-action="add" class="btn add-btn update-cart"
+            style="background-color: #8c5d4f; color: white;">Add To Cart</button>
+          <a href="/product_view/{{product.id}}/" class="btn btn-outline-secondary">View</a>
+          {% else %}
+          <button class="btn" style="background-color: #8c5d4f; color: white;">Login to add the item</button>
+          {% endif %}
+          <h4 style="margin-top: 10px;">Ksh {{product.price}}</h4>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2024 Online Shopping. All Rights Reserved.</p>
+</footer>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  // Toast Notification
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 3000);
+  }
+
+  {% if alert %}
+    showToast("Logout Successfully.");
+    setTimeout(() => window.location.href = '/', 2000);
+  {% endif %}
+</script>
+{% endblock %}

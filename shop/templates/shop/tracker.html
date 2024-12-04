@@ -1,0 +1,68 @@
+{% extends 'shop/base.html' %}
+{% block title %} Order Tracker {% endblock %}
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Track Your Order</h2>
+            <div class="card shadow p-4">
+                <form method="post" novalidate>{% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="order_id" class="form-label">Order ID</label>
+                        <input type="number" id="order_id" class="form-control" name="order_id" placeholder="Enter your Order ID" required>
+                        <div class="invalid-feedback">
+                            Please enter your Order ID.
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Track Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6 mx-auto">
+            {% if order_items %}
+            <h4>Order Items</h4>
+            <ul class="list-group mb-4">
+                {% for i in order_items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ forloop.counter }}. {{ i.product }}</span>
+                    <span class="badge bg-primary rounded-pill">Qty: {{ i.quantity }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if update_order %}
+            <h4>Order Details</h4>
+            <ul class="list-group">
+                {% for i in update_order %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ i.desc }}</span>
+                    <span class="badge bg-secondary rounded-pill">Date: {{ i.date }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bootstrap 5 form validation script
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('form')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}
