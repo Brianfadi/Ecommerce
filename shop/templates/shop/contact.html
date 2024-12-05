@@ -1,38 +1,92 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% block title %} Contact Us {% endblock %}
+
 {% block css %}
-{% endblock %}
-{% block body %}
-<div class="container py-2 mt-3">
-    <h2>Contact Us</h2>
-    <form method="post">{% csrf_token %}
- <div class="form-group mt-2">
-   <label>Name</label>
-   <input type="text" class="form-control mt-2" id="name" name="name" placeholder="Enter Your Name">
- </div>
-         <div class="form-group mt-2">
-   <label>Email</label>
-   <input type="email" class="form-control mt-2" id="email" name="email" placeholder="Enter Your Email">
- </div>
-         <div class="form-group mt-2">
-   <label>Phone</label>
-   <input type="number" class="form-control mt-2" id="phone" name="phone" placeholder="Enter Your Phone Number">
- </div>
-         <div class="form-group">
-  <div class="form-group mt-2">
-   <label>Message</label>
-   <textarea class="form-control mt-2" id="desc" name="desc" rows="3"></textarea>
- </div>
- <button type="submit" style="background-color: #8c5d4f; color: white; width: 8rem;" class="btn mt-4">Submit</button>
-</form>
-{% endblock %}
-{% block js %}
-<script>
-  {% if alert %}
-  alert("We will contact you soon!!!");
-  document.location = "/"
-  {% endif %}
-</script>
+<style>
+    /* General styling for the contact form */
+    .contact-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-container h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #4C6B8C;
+    }
+
+    .contact-container .form-label {
+        font-weight: bold;
+        color: #4C6B8C;
+    }
+
+    .contact-container .form-control {
+        border-radius: 5px;
+    }
+
+    .contact-container .form-control:focus {
+        border-color: #8c5d4f;
+        box-shadow: 0 0 5px rgba(140, 93, 79, 0.5);
+    }
+
+    .contact-container button {
+        background-color: #8c5d4f;
+        color: white;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .contact-container button:hover {
+        background-color: #734838;
+    }
+</style>
 {% endblock %}
 
+{% block body %}
+<div class="container py-4">
+    <div class="contact-container">
+        <h2>Contact Us</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group mt-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+            </div>
+            <div class="form-group mt-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+            </div>
+            <div class="form-group mt-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone Number">
+            </div>
+            <div class="form-group mt-3">
+                <label for="desc" class="form-label">Message</label>
+                <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="Write your message here"></textarea>
+            </div>
+            <button type="submit" class="btn mt-4">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    {% if alert %}
+    alert("We will contact you soon!!!");
+    document.location = "/";
+    {% endif %}
+</script>
+{% endblock %}

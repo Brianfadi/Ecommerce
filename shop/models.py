@@ -69,6 +69,7 @@ class OrderItem(models.Model):
         total = self.product.price * self.quantity
         return total
 
+
 class UpdateOrder(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     desc = models.CharField(max_length=500)
@@ -117,3 +118,5 @@ class Transaction(models.Model):
     def __str__(self):
         print(f"Transaction {self.mpesa_receipt_number} {self.name}")
         return f"Transaction {self.mpesa_receipt_number} {self.name}"
+
+
