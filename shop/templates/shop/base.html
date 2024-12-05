@@ -11,7 +11,38 @@
     <title>{% block title %} {% endblock %}</title>
     <style>
         .navbar {
-            background-color: #8c5d4f;
+             .navbar-nav .nav-item {
+        margin: 0 10px;
+    }
+
+    /* Hover effect for links */
+    .nav-link {
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #ffffff !important;
+        background-color: #3a536b;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    /* Hover effect for dropdown items */
+    .dropdown-menu .dropdown-item {
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+        background-color: #3a536b;
+        color: lightblue;
+    }
+
+    /* Adjust cart badge for better alignment */
+    .badge {
+        font-size: 0.9rem;
+        top: -5px;
+        right: -10px;
+    }
         }
 
         body {
@@ -114,14 +145,16 @@
 
 <body style="background: #f4f7fc; font-family: 'Arial', sans-serif;">
 
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow" style="background-color: #4C6B8C;">
+ <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow" style="background-color: #4C6B8C;">
     <div class="container-fluid">
         <!-- Brand Logo -->
         <a class="navbar-brand" href="/" style="font-size: 1.8rem; font-weight: bold;">Online Shopping</a>
+
         <!-- Toggler for Mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarContent">
             <!-- Left Aligned Links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -131,13 +164,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/cart/" style="font-size: 1.1rem; position: relative;">
                         <i class="fa fa-shopping-cart"></i> Cart
-                        <span class="badge bg-lightblue rounded-pill" id="cart-count" style="position: absolute; top: -5px; right: -15px; font-size: 0.8rem;">
+                        <span class="badge bg-light rounded-pill" id="cart-count">
                             {{ cartItems }}
                         </span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/tracker/" style="font-size: 1.1rem;">Track Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact/" style="font-size: 1.1rem;">Contact Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.1rem;">
+                        Help
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="helpDropdown">
+                        <li><a class="dropdown-item" href="/faq/">FAQs</a></li>
+                        <li><a class="dropdown-item" href="/support/">Customer Support</a></li>
+                    </ul>
                 </li>
                 {% if not request.user.is_authenticated %}
                 <li class="nav-item">
@@ -147,17 +192,19 @@
                     <a class="nav-link" href="/login/" style="font-size: 1.1rem;">Login</a>
                 </li>
                 {% else %}
-                <li class="nav-item dropdown" style="background-color: #4C6B8C">
-                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.1rem;" >
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.1rem;">
                         {{ request.user }}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="accountDropdown" style="background-color: #4C6B8C">
+                    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                        <li><a class="dropdown-item" href="/profile/">My Profile</a></li>
                         <li><a class="dropdown-item" href="/change_password/">Change Password</a></li>
                         <li><a class="dropdown-item" href="/logout/">Logout</a></li>
                     </ul>
                 </li>
                 {% endif %}
             </ul>
+
             <!-- Right Aligned Search Bar -->
             <form class="d-flex" method="POST" action="/search/">
                 {% csrf_token %}
@@ -171,7 +218,6 @@
         </div>
     </div>
 </nav>
-
     {% block body %}
     {% endblock %}
 
