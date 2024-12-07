@@ -1,0 +1,50 @@
+{% extends 'shop/layout.html' %}
+{% block body %}
+<div class="container mt-5" style="font-family: Arial, sans-serif; max-width: 600px;">
+
+    <!-- Profile Details Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Your Profile Details</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Full Name:</strong> {{ user.get_full_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+                <li class="list-group-item"><strong>Last Login:</strong> {{ user.last_login|date:"D, d M Y, h:i A" }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Profile Update Form Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white text-center">
+            <h3>Update Your Profile</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.full_name.label_tag }}
+                    {{ form.full_name }}
+                </div>
+                <div class="mb-3">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div>
+                <button type="submit" class="btn btn-success w-100">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

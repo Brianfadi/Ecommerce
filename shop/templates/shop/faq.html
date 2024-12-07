@@ -1,0 +1,36 @@
+{% extends 'shop/layout.html' %}
+{% block body %}
+<div class="faq-container" style="margin: 20px auto; max-width: 800px; font-family: Arial, sans-serif;">
+    <h1 style="text-align: center; margin-bottom: 30px;">Frequently Asked Questions</h1>
+
+    <div class="faq-section" style="margin-bottom: 20px;">
+        <h3 style="color: #2c3e50;">1. How can I track my order?</h3>
+        <p style="color: #34495e;">You can track your order by logging into your account and navigating to the "My Orders" section. You’ll find real-time updates about your order status there.</p>
+    </div>
+
+    <div class="faq-section" style="margin-bottom: 20px;">
+        <h3 style="color: #2c3e50;">2. What payment methods do you accept?</h3>
+        <p style="color: #34495e;">We accept multiple payment methods, including MPESA, credit/debit cards, and bank transfers. More options will be added soon.</p>
+    </div>
+
+    <div class="faq-section" style="margin-bottom: 20px;">
+        <h3 style="color: #2c3e50;">3. Can I return or exchange a product?</h3>
+        <p style="color: #34495e;">Yes, you can return or exchange a product within 7 days of delivery. The product must be in its original condition. Visit our <a href="{% url 'return_policy' %}" style="color: #2980b9;">Return Policy</a> page for more details.</p>
+    </div>
+
+    <div class="faq-section" style="margin-bottom: 20px;">
+        <h3 style="color: #2c3e50;">4. What should I do if I face issues during payment?</h3>
+        <p style="color: #34495e;">If you encounter issues during payment, check if your payment details are correct or if there’s an issue with your payment method. If the problem persists, contact our <a href="{% url 'customer_support' %}" style="color: #2980b9;">Customer Support</a>.</p>
+    </div>
+
+    <div class="faq-section" style="margin-bottom: 20px;">
+        <h3 style="color: #2c3e50;">5. How long does delivery take?</h3>
+        <p style="color: #34495e;">Delivery typically takes 2-5 business days, depending on your location. You will receive updates via email or SMS once your order is shipped.</p>
+    </div>
+
+    <div class="faq-section" style="margin-bottom: 20px;">
+        <h3 style="color: #2c3e50;">6. How do I contact customer support?</h3>
+        <p style="color: #34495e;">You can contact our customer support team through the <a href="{% url 'customer_support' %}" style="color: #2980b9;">Contact Us</a> page, or email us at brianfadi20@gmail.com. You can also call us at +254 741138292.</p>
+    </div>
+</div>
+{% endblock %}

@@ -12,6 +12,8 @@ from datetime import datetime
 import base64
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .forms import ProfileUpdateForm
 
 
 def index(request):
@@ -401,13 +403,39 @@ def waiting_page(request, transaction_id):
 
 
 
+def customer_support(request):
+    return render(request, 'shop/customersupport.html', {'year': datetime.now().year})
+
+def submit_support_ticket(request):
+    if request.method == 'POST':
+        # Process form data here
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        # Save to database or send an email
+        return HttpResponse("Thank you for contacting support. We'll get back to you shortly.")
+    return HttpResponse("Invalid request method.")
+
+
+def faq_page(request):
+    return render(request, 'shop/faq.html')
 
 
 
+def return_policy(request):
+    return render(request, 'shop/return_policy.html')
 
 
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile has been updated successfully!")
+            return redirect('profile')  # Redirect to avoid resubmission issues
+    else:
+        form = ProfileUpdateForm(instance=request.user)
 
-
-
-
-
+    return render(request, 'shop/profile.html', {'form': form})

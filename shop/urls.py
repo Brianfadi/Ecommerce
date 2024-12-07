@@ -22,5 +22,10 @@ urlpatterns = [
     path('waiting/<int:transaction_id>/', views.waiting_page, name='waiting_page'),
 
     path('mpesa_payment/<int:order_id>/', views.mpesa_payment, name='mpesa_payment'),
+    path('customersupport/', views.customer_support, name='customer_support'),
+    path('submit_support_ticket/', views.submit_support_ticket, name='submit_support_ticket'),
+    path('faq/', views.faq_page, name='faq_page'),
+    path('return-policy/', views.return_policy, name='return_policy'),
+    path('profile/', views.profile_view, name='profile'),
 
 ]
