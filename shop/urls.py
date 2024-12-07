@@ -19,6 +19,8 @@ urlpatterns = [
 
     path('mpindex/', views.index, name='mpindex'),  # form page
     path('stk_push/', views.stk_push, name='stk_push'),
-    path('waiting/<int:transaction_id>', views.waiting_page, name='waiting_page'),
+    path('waiting/<int:transaction_id>/', views.waiting_page, name='waiting_page'),
+
+    path('mpesa_payment/<int:order_id>/', views.mpesa_payment, name='mpesa_payment'),
 
 ]

@@ -8,11 +8,11 @@
             <div class="card shadow-lg">
                 <!-- Card Header -->
                 <div class="card-header text-center bg-success text-white">
-                    <img 
+                    <img
                         src="{% static 'media/mpesa-logo.png' %}"
-                        alt="MPESA Logo" 
-                        class="mb-2" 
-                        style="width: 120px;" 
+                        alt="MPESA Logo"
+                        class="mb-2"
+                        style="width: 120px;"
                     />
                     <h3>MPESA Payment Portal</h3>
                 </div>
@@ -24,34 +24,34 @@
                     </p>
                     <form action="/stk_push/" method="post" class="form">
                         {% csrf_token %}
-                        
+
                         <!-- Phone Number -->
                         <div class="mb-4">
                             <label for="phone" class="form-label fw-bold">Phone Number</label>
-                            <input 
-                                class="form-control form-control-lg shadow-sm" 
-                                type="text" 
-                                id="phone" 
-                                name="phone" 
-                                placeholder="Enter phone number (e.g., 254712345678)" 
-                                value="254" 
-                                required 
+                            <input
+                                class="form-control form-control-lg shadow-sm"
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                placeholder="Enter phone number (e.g., 254712345678)"
+                                value="254"
+                                required
                             />
                         </div>
-                        
+
                         <!-- Amount -->
                         <div class="mb-4">
                             <label for="amount" class="form-label fw-bold">Payment Amount</label>
-                            <input 
-                                class="form-control form-control-lg shadow-sm" 
-                                type="number" 
-                                id="amount" 
-                                name="amount" 
-                                placeholder="Enter amount to pay (KES)" 
-                                required 
+                            <input
+                                class="form-control form-control-lg shadow-sm"
+                                type="number"
+                                id="amount"
+                                name="amount"
+                                value="{{ total_amount }}"
+                                readonly
                             />
                         </div>
-                        
+
                         <!-- Submit Button -->
                         <div class="d-grid">
                             <button class="btn btn-success btn-lg shadow" type="submit">
@@ -60,13 +60,13 @@
                         </div>
                     </form>
                 </div>
-                
+
                 <!-- Card Footer -->
                 <div class="card-footer text-center bg-light text-muted py-3">
-                    <img 
+                    <img
                         src="{% static 'media/MPESA.png' %}"
-                        alt="Powered by MPESA" 
-                        style="width: 150px;" 
+                        alt="Powered by MPESA"
+                        style="width: 150px;"
                     />
                     <p class="mt-2">Secure Payment Powered by MPESA</p>
                 </div>

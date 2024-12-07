@@ -85,24 +85,18 @@ def checkout(request):
         )
         checkout_detail.save()
 
-        # Mark the order as complete
-        if total == order.get_cart_total:
-            order.complete = True
-        order.save()
-        id = order.id
-        alert = True
-
+        # Mark order as incomplete for MPESA payments
         if payment == "MPESA":
-            return render(request, 'shop/mpindex.html')  # Redirect to the Mpesa payment page
+            # Redirect to MPESA payment page with order ID
+            return redirect('mpesa_payment', order_id=order.id)
         else:
+            # Mark the order as complete for other payment methods
+            order.complete = True
+            order.save()
+            alert = True
+            return render(request, "shop/checkout.html", {'alert': alert, 'id': order.id})
 
-            return render(request, "shop/checkout.html", {'alert': alert, 'id': id})
-    # Render checkout page if not POST
-    return render(request, "shop/checkout.html", {
-        'items': items,
-        'order': order,
-        'cartItems': cartItems
-    })
+    return render(request, "shop/checkout.html", {'cartItems': cartItems, 'order': order, 'items': items})
 
 
 def updateItem(request):
@@ -327,8 +321,16 @@ def generate_access_token():
     return response.json().get('access_token')
 
 
-def mpindex(request):
-    return render(request, 'shop/mpindex.html')
+def mpesa_payment(request, order_id):
+    # Retrieve the order using the provided order_id
+    order = Order.objects.get(id=order_id)
+    total_amount = order.get_cart_total  # Retrieve the total cart amount
+
+    # Pass the total amount to the template
+    return render(request, 'shop/mpindex.html', {
+        'order': order,
+        'total_amount': total_amount
+    })
 
 
 @csrf_exempt
@@ -336,17 +338,16 @@ def stk_push(request):
     if request.method == 'POST':
         phone = request.POST.get('phone')
         amount = request.POST.get('amount')
-        name = request.POST.get('name')
-        email = request.POST.get('email')
 
+        # Create transaction
         transaction = Transaction.objects.create(
             phone_number=phone,
             amount=amount,
             status="Pending",
             description="Awaiting status result",
-
         )
 
+        # Generate the STK Push payload
         access_token = generate_access_token()
         stk_url = f'{BASE_URL}/mpesa/stkpush/v1/processrequest'
         headers = {
@@ -370,22 +371,33 @@ def stk_push(request):
             "TransactionDesc": "Payment for Services"
         }
 
+        # Send STK Push request
         response = requests.post(stk_url, json=payload, headers=headers)
         response_data = response.json()
 
+        # Update transaction details
         transaction_id = response_data.get('CheckoutRequestID', None)
         transaction.transaction_id = transaction_id
         transaction.description = response_data.get('ResponseDescription', "No Description")
         transaction.save()
 
-        return redirect('waiting_page', transaction_id=transaction.id)
-    return JsonResponse({'error': "invalid request"}, status=400)
+        # Create or update the order
+        if request.user.is_authenticated:
+            customer = request.user.customer
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            order.transaction = transaction  # Link the transaction to the order
+            order.total = amount  # Assign the paid amount as the order total
+            order.complete = True  # Mark the order as complete
+            order.save()
 
+            # Redirect to the payment success page with the transaction ID
+            return redirect('waiting_page', transaction_id=transaction.id)
+
+    return JsonResponse({'error': "invalid request"}, status=400)
 
 def waiting_page(request, transaction_id):
     transaction = Transaction.objects.get(id=transaction_id)
-    return render(request, 'shop/waiting.html', {'transaction_id': transaction_id})
-
+    return render(request, 'shop/waiting.html', {'transaction': transaction})
 
 
 
