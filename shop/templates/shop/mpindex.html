@@ -1,68 +1,78 @@
 {% extends 'shop/layout.html' %}
+{% load static %}
 {% block body %}
 
 <div class="container py-5">
-   <div class="row justify-content-center">
-       <div class="col-md-6">
-           <div class="card shadow">
-               <div class="card-header text-center bg-success text-white">
-                   <h3>MPESA Payment Details</h3>
-               </div>
-               <div class="card-body">
-                   <form action="/stk_push/" method="post" class="form">
-                       {% csrf_token %}
-                       <div class="mb-3">
-                           <label for="phone" class="form-label">Phone Number:</label>
-                           <input
-                              class="form-control"
-                              type="text"
-                              id="phone"
-                              name="phone"
-                              placeholder="Enter your phone number (e.g., 254712345678)"
-                              value="254"
-                              required />
-                       </div>
-                       <div class="mb-3">
-                           <label for="amount" class="form-label">Amount:</label>
-                           <input
-                              class="form-control"
-                              type="number"
-                              id="amount"
-                              name="amount"
-                              placeholder="Enter the amount to pay"
-                              required />
-                       </div>
-                       <div class="mb-3">
-                           <label for="name" class="form-label">Name:</label>
-                           <input
-                              class="form-control"
-                              type="text"
-                              id="name"
-                              name="name"
-                              placeholder="Enter your full name"
-                              required />
-                       </div>
-                       <div class="mb-3">
-                           <label for="email" class="form-label">Email Address:</label>
-                           <input
-                              class="form-control"
-                              type="email"
-                              id="email"
-                              name="email"
-                              placeholder="Enter your email address"
-                              required />
-                       </div>
-                       <div class="d-grid">
-                           <button class="btn btn-success btn-lg" type="submit">Pay Now</button>
-                       </div>
-                   </form>
-               </div>
-               <div class="card-footer text-center text-muted">
-                   Secure Payment Powered by MPESA
-               </div>
-           </div>
-       </div>
-   </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <!-- Card Header -->
+                <div class="card-header text-center bg-success text-white">
+                    <img 
+                        src="{% static 'media/mpesa-logo.png' %}"
+                        alt="MPESA Logo" 
+                        class="mb-2" 
+                        style="width: 120px;" 
+                    />
+                    <h3>MPESA Payment Portal</h3>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body p-4">
+                    <p class="text-center text-muted">
+                        Complete your transaction securely and conveniently with MPESA.
+                    </p>
+                    <form action="/stk_push/" method="post" class="form">
+                        {% csrf_token %}
+                        
+                        <!-- Phone Number -->
+                        <div class="mb-4">
+                            <label for="phone" class="form-label fw-bold">Phone Number</label>
+                            <input 
+                                class="form-control form-control-lg shadow-sm" 
+                                type="text" 
+                                id="phone" 
+                                name="phone" 
+                                placeholder="Enter phone number (e.g., 254712345678)" 
+                                value="254" 
+                                required 
+                            />
+                        </div>
+                        
+                        <!-- Amount -->
+                        <div class="mb-4">
+                            <label for="amount" class="form-label fw-bold">Payment Amount</label>
+                            <input 
+                                class="form-control form-control-lg shadow-sm" 
+                                type="number" 
+                                id="amount" 
+                                name="amount" 
+                                placeholder="Enter amount to pay (KES)" 
+                                required 
+                            />
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button class="btn btn-success btn-lg shadow" type="submit">
+                                <i class="fas fa-money-bill-wave"></i> Pay Now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Card Footer -->
+                <div class="card-footer text-center bg-light text-muted py-3">
+                    <img 
+                        src="{% static 'media/MPESA.png' %}"
+                        alt="Powered by MPESA" 
+                        style="width: 150px;" 
+                    />
+                    <p class="mt-2">Secure Payment Powered by MPESA</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

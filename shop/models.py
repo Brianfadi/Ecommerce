@@ -69,7 +69,6 @@ class OrderItem(models.Model):
         total = self.product.price * self.quantity
         return total
 
-
 class UpdateOrder(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     desc = models.CharField(max_length=500)
@@ -78,7 +77,6 @@ class UpdateOrder(models.Model):
     def __str__(self):
         return str(self.order_id)
 
-# Updated CheckoutDetail model
 class CheckoutDetail(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -100,10 +98,9 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
 
-
 class Transaction(models.Model):
     # transaction id :
-    transaction_id = models.CharField(max_length=100, blank=True,null=True)
+    transaction_id = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=15)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     # Mpesa receipt number
@@ -112,11 +109,7 @@ class Transaction(models.Model):
     description = models.TextField(blank=True, null=True)
     transaction_date = models.DateTimeField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    email = models.EmailField(blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        print(f"Transaction {self.mpesa_receipt_number} {self.name}")
-        return f"Transaction {self.mpesa_receipt_number} {self.name}"
-
+        return f"Transaction {self.mpesa_receipt_number}"
 

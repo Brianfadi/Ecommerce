@@ -344,8 +344,7 @@ def stk_push(request):
             amount=amount,
             status="Pending",
             description="Awaiting status result",
-            name=name,
-            email=email,
+
         )
 
         access_token = generate_access_token()
@@ -387,7 +386,7 @@ def waiting_page(request, transaction_id):
     transaction = Transaction.objects.get(id=transaction_id)
     return render(request, 'shop/waiting.html', {'transaction_id': transaction_id})
 
-# TODO : IMPLEMENT CALLBACK PROCESS HERE i.e. GET RESULTS OF PAYMENT FROM THE REQUEST MADE ABOVE
+
 
 
 
